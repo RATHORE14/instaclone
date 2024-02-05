@@ -1,0 +1,14 @@
+<% include ./partials/header.ejs %>
+    <div class="container p-4">
+        <h3>forgot password</h3>
+        <hr>
+       
+        <form action="/reset/<%= user._id%>" method="post">
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+            <button type="submit" class="btn btn-success">Reset password</button>
+          </form>
+    </div>    
+<% include ./partials/footer.ejs %>

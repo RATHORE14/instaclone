@@ -1,0 +1,69 @@
+<% include ./partials/header.ejs %>
+  <form id="uploadpic" method="post" action="/upload" enctype="multipart/form-data">
+    <input id="fileinp" type="file" name="image">
+  </form>
+  <div class="container py-3">
+    <div class="d-flex">
+      <h4 class="mb-4">Profile</h4>
+    </div>
+    <div class="flex">
+      <div class="pencilcircle">
+        <div class="pencil"><i class="ri-pencil-line"></i></div>
+        <div class="image">
+          <img src="../images/uploads/<%= foundUser.image %>" alt="">
+        </div>
+      </div>
+      <div>
+        <h4 style="text-transform: capitalize;">
+          <%= foundUser.username %>
+        </h4>
+        <h6 style="font-weight: 400; margin-top: -5px;">kuchh karta hai</h6>
+        <a href="/edit/:username">edit your account</a>
+      </div>
+    </div>
+    <div class="post mt-4 container-md">
+      <h6>Create a new post.</h6>
+      <div class="row">
+        <div class="col-6">
+          <form action="/post" method="post">
+            <div class="form-floating">
+              <textarea name="post" class="form-control" placeholder="Leave a comment here"
+                id="floatingTextarea"></textarea>
+              <label for="floatingTextarea">What's on your mind ?</label>
+            </div>
+            <button type="submit" class="mt-3 btn btn-primary">Create Post</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-4">
+      <h6 class="mb-3">All Posts By You.</h6>
+      <% foundUser.posts.reverse().forEach(function(post){ %>
+        <div class="card mt-3" style="width: 45rem;">
+          <div class="card-body">
+            <h5 class="card-title">@<%= foundUser.username %>
+            </h5>
+            <p class="card-text">
+              <%= post.data %>
+            </p>
+            <p style="font-weight: 600;" class="text-primary"><%= post.likes.length %> Likes</p>
+            <a href="/like/<%= post._id %>" class="btn <%= post.likes.indexOf(foundUser.id) === -1 ? 'btn-primary' : 'btn-danger' %>"><%= post.likes.indexOf(foundUser.id) === -1 ? "Like" : "Unlike" %></a>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    document.querySelector(".pencil")
+    .addEventListener("click", function(){
+      document.querySelector("#fileinp").click();
+    })
+
+    document.querySelector("#fileinp")
+    .addEventListener("change", function(){
+      document.querySelector("#uploadpic").submit();
+    })
+  </script>
+  <% include ./partials/footer.ejs %>
